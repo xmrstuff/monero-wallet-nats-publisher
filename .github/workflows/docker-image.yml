@@ -1,0 +1,30 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+  dockerhub_push:
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_NAME: xmrstuff/monero-wallet-nats-publisher
+      IMAGE_VERSION: v0.0.1
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build --tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} .
+    - name: Tag the image as latest
+      run: docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} ${{ env.IMAGE_NAME }}:latest
+    - name: Login to Docker Registry
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Push versioned image to DockerHub
+      run: docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
+    - name: Push latest tag to DockerHub
+      run: docker push ${{ env.IMAGE_NAME }}:latest
