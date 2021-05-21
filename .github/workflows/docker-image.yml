@@ -1,0 +1,23 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    vars:
+      VERSION: v0.0.1
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build --tag xmrstuff/monero-wallet-nats-publisher:$VERSION .
+    - name: Login to DockerHub
+      run: docker login -u $dockerhub_username -p $DOCKERHUB_TOKEN
+    - name: Push to DockerHub
+      run: docker push xmrstuff/monero-wallet/nats-publisher:$VERSION
