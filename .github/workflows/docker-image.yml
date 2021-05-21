@@ -19,14 +19,11 @@ jobs:
       run: docker build --tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} .
     - name: Tag the image as latest
       run: docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} ${{ env.IMAGE_NAME }}:latest
-    # - name: Login to Docker Registry
-    #   uses: docker/login-action@v1
-    #   with:
-    #     registry: index.docker.io/v1/
-    #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-    #     password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Login to DockerHub
-      run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Login to Docker Registry
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Push versioned image to DockerHub
       run: docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
     - name: Push latest tag to DockerHub
