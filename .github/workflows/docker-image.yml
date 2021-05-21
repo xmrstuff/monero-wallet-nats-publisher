@@ -18,7 +18,7 @@ jobs:
     - name: Build the Docker image
       run: docker build --tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} .
     - name: Tag the image as latest
-      run: docker tag ${{ env.IMAGE_NAME }}:latest
+      run: docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} ${{ env.IMAGE_NAME }}:latest
     - name: Login to Docker Registry
       uses: docker/login-action@v1
       with:
