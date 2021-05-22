@@ -12,7 +12,7 @@ The `CMD` included in the Dockerfile is an example that uses the default configu
 /usr/bin/publisher ping && \
     /usr/bin/monero-wallet-rpc \
     --non-interactive \
-    --tx-notiy="/usr/bin/publisher --nats-url=my-nats-server:422 tx %s"
+    --tx-notiy="/usr/bin/publisher --nats-url=my-nats-server:4222 tx %s"
 ```
 
 See the README in the CLI's repo (https://github.com/xmrstuff/monero-nats-publisher) for more info 
